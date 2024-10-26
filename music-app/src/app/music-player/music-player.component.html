@@ -1,0 +1,119 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button (click)="prevPlaylist()" [disabled]="playlists.length <= 1">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  
+    <span class="playlist-name">{{ currentPlaylist?.name || 'Нет плейлиста' }}</span>
+  
+    <button mat-icon-button (click)="nextPlaylist()" [disabled]="playlists.length <= 1">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  
+    <span class="spacer"></span>
+  
+    <button mat-icon-button (click)="createNewPlaylist()">
+      <mat-icon>playlist_add</mat-icon>
+    </button>
+  
+    <button mat-icon-button (click)="deletePlaylist(currentPlaylist.name)" *ngIf="currentPlaylist">
+      <mat-icon>delete</mat-icon>
+    </button>
+  
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Поиск</mat-label>
+      <input matInput [(ngModel)]="searchQuery" placeholder="Введите название песни">
+      <button mat-icon-button matSuffix *ngIf="searchQuery" (click)="searchQuery = ''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  
+    <button mat-button (click)="fileInput.click()">
+      <mat-icon>library_music</mat-icon>
+      Добавить песни
+    </button>
+    <input type="file" #fileInput (change)="onFileSelected($event)" multiple accept="audio/*" hidden>
+  </mat-toolbar>
+  
+  <div class="player-container">
+    <mat-card *ngIf="songs.length > 0">
+      <mat-card-content>
+        <div class="cover-container" *ngIf="currentSongIndex >= 0">
+          <img [src]="songs[currentSongIndex]?.coverUrl || 'assets/default-cover.png'" alt="Обложка альбома" class="cover-image">
+        </div>
+  
+        <div class="equalizer" *ngIf="isPlaying">
+          <div class="bar" *ngFor="let bar of [1,2,3,4,5]"></div>
+        </div>
+  
+        <button mat-button (click)="coverInputMain.click()" *ngIf="currentSongIndex >= 0">
+          <mat-icon>image</mat-icon>
+          Загрузить обложку
+        </button>
+        <input type="file" #coverInputMain (change)="onCoverSelected($event, songs[currentSongIndex])" accept="image/*" hidden>
+  
+        <h2>{{ songs[currentSongIndex]?.name || 'Выберите песню' }}</h2>
+  
+        <input type="range" min="0" [max]="duration" [value]="currentTime" (input)="seek($event)" class="seek-slider" *ngIf="currentSongIndex >= 0">
+  
+        <div class="time-stamps" *ngIf="currentSongIndex >= 0">
+          <span>{{ formatTime(currentTime) }}</span>
+          <span>{{ formatTime(duration) }}</span>
+        </div>
+  
+        <div class="controls">
+          <button mat-icon-button (click)="prevSong()">
+            <mat-icon>skip_previous</mat-icon>
+          </button>
+          <button mat-icon-button (click)="isPlaying ? pauseSong() : playSong(currentSongIndex)">
+            <mat-icon>{{ isPlaying ? 'pause' : 'play_arrow' }}</mat-icon>
+          </button>
+          <button mat-icon-button (click)="nextSong()">
+            <mat-icon>skip_next</mat-icon>
+          </button>
+          <button mat-icon-button (click)="toggleRepeat()">
+            <mat-icon [color]="repeatMode ? 'accent' : ''">repeat</mat-icon>
+          </button>
+          <button mat-icon-button (click)="toggleShuffle()">
+            <mat-icon [color]="shuffleMode ? 'accent' : ''">shuffle</mat-icon>
+          </button>
+  
+          <mat-icon>{{ volumeIcon }}</mat-icon>
+  
+          <input type="range" min="0" max="1" step="0.01" [value]="volume" (input)="changeVolume($event)" class="volume-slider">
+        </div>
+  
+        <button mat-button (click)="clearPlaylist()">
+          <mat-icon>delete_sweep</mat-icon>
+          Очистить плейлист
+        </button>
+      </mat-card-content>
+    </mat-card>
+  
+    <div *ngIf="songs.length === 0" class="no-songs-message">
+      <p>В этом плейлисте нет песен. Добавьте песни, используя кнопку "Добавить песни" вверху.</p>
+    </div>
+  
+    <div class="song-list" #songListContainer *ngIf="songs.length > 0">
+      <mat-list>
+        <mat-list-item *ngFor="let song of filteredSongs; let i = index" [class.active]="i === currentSongIndex">
+          <img [src]="song.coverUrl || 'assets/default-cover.png'" alt="Обложка" class="list-cover-image" (click)="playSong(i)">
+  
+          <h4 mat-line (click)="playSong(i)">{{ song.name }}</h4>
+  
+          <button mat-icon-button (click)="editSongName(song)">
+            <mat-icon>edit</mat-icon>
+          </button>
+  
+          <button mat-icon-button (click)="onCoverButtonClicked(i)">
+            <mat-icon>image</mat-icon>
+          </button>
+          <input type="file" #coverInputs (change)="onCoverSelected($event, song)" accept="image/*" hidden>
+  
+          <button mat-icon-button (click)="removeSong(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+  

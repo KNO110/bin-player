@@ -1,0 +1,195 @@
+.player-container {
+    margin: 20px;
+  }
+  
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .controls button {
+    margin: 5px;
+  }
+  
+  .time-stamps {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  mat-list-item {
+    display: flex;
+    align-items: center;
+    min-height: 120px;
+  }
+  
+  mat-list-item.active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  mat-card {
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  mat-toolbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    height: 64px;
+  }
+  
+  .playlist-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 10px;
+  }
+  
+  .player-container {
+    margin-top: 120px;
+  }
+  
+  .song-list {
+    margin-top: 20px;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+  
+  .seek-slider {
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .volume-slider {
+    width: 100px;
+    margin-left: 10px;
+  }
+  
+  mat-list-item h4 {
+    flex: 1;
+    margin: 0 10px;
+    font-size: 20px;
+  }
+  
+  mat-list-item button {
+    margin-left: 5px;
+  }
+  
+  .cover-container {
+    text-align: center;
+  }
+  
+  .cover-image {
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+    display: inline-block;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
+  .equalizer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    height: 50px;
+  }
+  
+  .equalizer .bar {
+    width: 5px;
+    background-color: #3f51b5;
+    margin: 0 3px;
+    animation: equalizer 1s infinite;
+  }
+  
+  .equalizer .bar:nth-child(2) {
+    animation-delay: -0.9s;
+  }
+  
+  .equalizer .bar:nth-child(3) {
+    animation-delay: -0.8s;
+  }
+  
+  .equalizer .bar:nth-child(4) {
+    animation-delay: -0.7s;
+  }
+  
+  .equalizer .bar:nth-child(5) {
+    animation-delay: -0.6s;
+  }
+  
+  @keyframes equalizer {
+    0% {
+      height: 10px;
+    }
+    50% {
+      height: 40px;
+    }
+    100% {
+      height: 10px;
+    }
+  }
+  
+  .list-cover-image {
+    width: 80px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  .no-songs-message {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 18px;
+  }
+  
+  mat-form-field.search-field {
+    width: 150px;
+    margin-right: 10px;
+  }
+  
+  mat-form-field.search-field .mat-form-field-flex {
+    padding-left: 8px;
+  }
+  
+  mat-form-field.search-field input {
+    padding: 4px 0;
+  }
+  
+  @media (max-width: 600px) {
+    .controls {
+      flex-direction: column;
+    }
+  
+    .volume-slider {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 10px;
+    }
+  
+    .search-field {
+      width: 100%;
+      margin-right: 0;
+      margin-top: 10px;
+    }
+  
+    mat-toolbar {
+      flex-wrap: wrap;
+      height: auto;
+      padding-bottom: 10px;
+    }
+  }
+  
